@@ -63,7 +63,7 @@
     const progress = layer.querySelector(".intro-track i");
     const resources = [
       decodeBackground("assets/manor.webp"), decodeBackground("assets/scenes/05.webp"),
-      frame.querySelector("h1 img").decode(), frame.querySelector(".hero-person").decode(),
+      frame.querySelector("h1 img").decode(), frame.querySelector(".hero-person img").decode(),
       document.fonts.load('italic 900 24px "Maximum Display"', "Максимум"),
       document.fonts.load('400 16px "Golos Text"', "Новый Орлеан 1930"),
       document.fonts.load('600 14px "IBM Plex Mono"', "Серия 01")
@@ -116,6 +116,7 @@
       [".hero-copy .location", "-8px 0", 70], [".hero-copy h1", "-16px 5px", 130],
       [".hero-copy > p", "0 8px", 200], [".hero-sign", "9px 4px", 235],
       [".hero-actions", "0 6px", 270], [".imprint", "0 -4px", 300],
+      [".opening-play", "0 5px", 280],
       [".secret-key:not([hidden])", "8px 0", 320]
     ];
     const reveals = [];

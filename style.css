@@ -541,6 +541,74 @@ h2 { line-height:.92; }
   .merch-shirts .merch-photo img { aspect-ratio: 3 / 2; }
   .mug-prints span { min-height: 44px; }
 }
+.hero-person { padding: 0; border: 0; background: transparent; }
+.hero-person img { display: block; width: 100%; height: auto; }
+.hero-person:focus-visible { outline-offset: -6px; }
+.hero-sign { pointer-events: none; }
+.opening-play {
+  position: absolute; z-index: 4; left: 55%; top: 54%; transform: translate(-50%, -50%);
+  display: grid; justify-items: center; gap: .55rem; padding: .3rem; color: #fbe7be;
+}
+html:is([data-cover-intro="loading"], [data-cover-intro="framing"]) .opening-play { visibility: hidden; }
+.opening-play-disc {
+  display: grid; place-items: center; width: clamp(54px, 5vw, 74px); aspect-ratio: 1;
+  border-radius: 50%; border: 2px solid #f3ce8d; outline: 1px solid #d8b37899; outline-offset: 4px;
+  background: #162122e8; box-shadow: 0 3px 14px #0a121ac9;
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+.opening-play-disc svg { width: 43%; height: 43%; }
+.opening-play-caption {
+  display: flex; align-items: baseline; gap: .45rem; padding: .28rem .6rem;
+  background: #131c1e; border-left: 2px solid #be4434; white-space: nowrap;
+  font: italic 900 1.06rem/1 var(--display); text-transform: uppercase;
+}
+.opening-play-caption small { color: #dfc08d; font: 600 .68rem var(--text); }
+@media (hover: hover) and (pointer: fine) {
+  .opening-play:hover .opening-play-disc,
+  .hero-person:hover ~ .opening-play .opening-play-disc { transform: scale(1.06); background: #8c332a; }
+}
+@media (max-width: 650px) {
+  .opening-play { left: 21%; top: auto; bottom: 12%; transform: translateX(-50%); }
+}
+.hero-frame :is(.hero-copy, .hero-person, .hero-sign, .opening-play) { transition: opacity 180ms ease-out; }
+.hero-frame.showing-opening :is(.hero-copy, .hero-person, .hero-sign, .opening-play) { opacity: 0; }
+.opening-cinema {
+  --camera-ease: cubic-bezier(.77,0,.175,1);
+  position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh; margin: 0;
+  max-width: none; max-height: none; border: 0; padding: 0; background: transparent; color: #ffe5b5; overflow: hidden;
+}
+.opening-cinema::backdrop { background: transparent; }
+.opening-port, .opening-screen { position: absolute; inset: 0; }
+.opening-port {
+  background: #111a1c; overflow: hidden; opacity: 0;
+  clip-path: inset(var(--crop-top) var(--crop-right) var(--crop-bottom) var(--crop-left));
+  transition: clip-path 440ms var(--camera-ease) 100ms, opacity 120ms ease-out 430ms;
+}
+.opening-art {
+  position: absolute; left: var(--box-x); top: var(--box-y); width: var(--box-w); height: var(--box-h);
+  overflow: hidden; background: #131c1e; transform-origin: center;
+  transition: transform 440ms var(--camera-ease) 100ms;
+}
+.opening-cinema.expanded .opening-port {
+  clip-path: inset(0px); opacity: 1;
+  transition: clip-path 620ms var(--camera-ease) 160ms, opacity 160ms ease-out;
+}
+.opening-cinema.expanded .opening-art {
+  transform: translate(var(--camera-x), var(--camera-y)) scale(var(--camera-scale));
+  transition: transform 620ms var(--camera-ease) 160ms;
+}
+.opening-screen { background: #080d0f; opacity: 0; visibility: hidden; transition: opacity 150ms ease-out, visibility 0s 150ms; }
+.opening-cinema.film-visible .opening-screen { opacity: 1; visibility: visible; transition: opacity 300ms ease-out; }
+#opening-video { display: block; width: 100%; height: 100%; object-fit: contain; }
+.opening-close {
+  position: absolute; top: max(1rem, env(safe-area-inset-top)); right: max(1rem, env(safe-area-inset-right));
+  display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid #c5a06a; background: #132025e6; color: #ffe5b5;
+}
+.opening-status {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: max-content; max-width: 90%;
+  background: #142126ee; text-align: center; padding: .75rem 1.2rem; border: 1px solid #af9066; font: 600 .95rem/1.4 var(--text);
+}
+.opening-status button { margin-left: .65rem; padding: .35rem; text-decoration: underline; }
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
