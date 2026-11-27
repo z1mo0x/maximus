@@ -1,8 +1,8 @@
 (() => {
   const motion = matchMedia("(prefers-reduced-motion: reduce)");
   const navigation = performance.getEntriesByType("navigation")[0];
-  if (motion.matches || (location.hash && location.hash !== "#top") ||
-      navigation?.type === "back_forward" || !Element.prototype.animate) return;
+  if (motion.matches || navigation?.type === "back_forward" || !Element.prototype.animate) return;
+  const sectionEntry = Boolean(location.hash && location.hash !== "#top");
 
   const root = document.documentElement;
   const listeners = new AbortController();
@@ -33,7 +33,10 @@
   for (const type of ["pointerdown", "wheel", "keydown", "hashchange", "pagehide", "resize"]) {
     window.addEventListener(type, finish, {capture:true, passive:true, signal:listeners.signal});
   }
-  window.addEventListener("scroll", () => { if (scrollY > 2) finish(); }, {passive:true,signal:listeners.signal});
+  // The browser scrolls to an initial fragment without visitor input.
+  if (!sectionEntry) {
+    window.addEventListener("scroll", () => { if (scrollY > 2) finish(); }, {passive:true,signal:listeners.signal});
+  }
   document.addEventListener("visibilitychange", () => { if (document.hidden) finish(); }, {signal:listeners.signal});
   motion.addEventListener("change", finish, {signal:listeners.signal});
 
@@ -50,7 +53,7 @@
   }
 
   async function start() {
-    if (scrollY > 2 || document.hidden) { finish(); return; }
+    if ((!sectionEntry && scrollY > 2) || document.hidden) { finish(); return; }
     frame = document.querySelector(".hero-frame");
     art = frame.querySelector(".hero-art");
     const layer = document.querySelector("#cover-intro");
@@ -71,6 +74,12 @@
     })));
     await Promise.all([loaded, new Promise(resolve => setTimeout(resolve, 540))]);
     if (listeners.signal.aborted) return;
+    if (sectionEntry) {
+      document.querySelector(":target")?.scrollIntoView({behavior:"instant", block:"start"});
+      await play(layer, [{opacity:1}, {opacity:0}], {duration:240, easing:easeOut});
+      finish();
+      return;
+    }
     clearTimeout(guard);
     guard = setTimeout(finish, 4200);
 
