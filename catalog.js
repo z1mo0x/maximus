@@ -1501,7 +1501,7 @@ const catalog = {
   },
   {
    "name": "Анна Сорокина",
-   "role": "Фигурантка дела",
+   "role": "Глава мафии",
    "bio": "Имя Анны звучит в показаниях Генерала.",
    "image": "assets/cast/10.webp",
    "scene": "assets/scenes/10.webp"
