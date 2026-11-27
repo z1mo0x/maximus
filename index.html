@@ -15,10 +15,10 @@
   <link rel="preload" href="assets/fonts/golos-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/plex-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/plex-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="style.css?v=6">
-  <script src="cover-intro.js?v=4"></script>
-  <script defer src="catalog.js?v=2"></script>
-  <script defer src="app.js?v=5"></script>
+  <link rel="stylesheet" href="style.css?v=8">
+  <script src="cover-intro.js?v=5"></script>
+  <script defer src="catalog.js?v=3"></script>
+  <script defer src="app.js?v=7"></script>
 </head>
 <body>
   <svg xmlns="http://www.w3.org/2000/svg" class="icon-library" aria-hidden="true" focusable="false"><defs><symbol id="i-arrow" viewBox="0 0 24 24"><path d="m2 11 13.6-.7-4.8-5.8 2.5-.7L23 12l-10.1 8.3-2.3-.8 5.1-6.2L1.5 14z"/></symbol><symbol id="i-close" viewBox="0 0 24 24"><path d="m4.7 2.9 7.6 7 7.4-7.1 1.9 1.9-7 7.5 6.8 7.4-1.9 1.9-7.6-7-7.6 6.8-1.7-2 7.1-7.4-7-7.2z"/></symbol><symbol id="i-book" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="m2 4.4 6.1-.7 4.1 2.1 3.5-2.2 6.2-.9-.6 15.5-5.6.5-3.9 2.3-4-1.8-5.8.4zM12.2 5.8l-.4 15.1M5 7.3l2.8-.2 1.5.6m5.7-.6 3.6-.9"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m2.2 12.3 2.5-1.9 4.6 4.1L20.8 3.9l1.5 1.6L9.7 20.3z"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="m10.8 3.3 2.6-.3.1 7.6 7.4-.5-.1 2.8-7.2.4.2 7.5-2.7.3-.3-7.6-7.8.2.1-2.7 7.7-.2z"/></symbol><symbol id="i-fleur" viewBox="0 0 24 24"><path d="M12 .8c-1.6 2.2-3.4 4.3-3.1 6.7.2 1.6 1.5 3.5 2.1 5.4-1.4-2.9-3.3-5.7-5.9-5.7-2.4 0-3.5 1.8-3.2 3.6.2 1.7 1.3 2.7 3 3.5-1.1-2.4-.6-3.8 1-3.7 2.2.1 3.2 2.5 3.7 4.6H7.4v2.1h2.8c-.6 1.8-1.3 2.6-2.8 3.3 2.1.4 3.7-.3 4.6-2.5.9 2.2 2.6 2.9 4.7 2.5-1.5-.7-2.3-1.5-2.9-3.3h2.8v-2.1h-2.2c.5-2.1 1.5-4.5 3.6-4.6 1.7-.1 2.1 1.3 1.1 3.7 1.7-.8 2.8-1.8 3-3.5.3-1.8-.8-3.6-3.2-3.6-2.6 0-4.6 2.8-5.9 5.7.6-1.9 1.8-3.8 2-5.4.3-2.4-1.4-4.5-3-6.7z"/></symbol><symbol id="i-zoom" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6.3" stroke="currentColor" stroke-width="2" fill="none"/><path d="m14.3 15.9 2-2 6.5 6.8-1.9 1.8zM6.8 9.3h2.4V7h1.7v2.3h2.4v1.6h-2.4v2.4H9.2v-2.4H6.8z"/></symbol><symbol id="i-fit" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M3 9h6V3m12 6h-6V3M3 15h6v6m12-6h-6v6"/></symbol><symbol id="i-key" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M10.5 14.3a5 5 0 1 1 2-2.5l8.2 1.6-.6 3.4-2.4-.6-.5 2.1-2.3-.5.4-2.1z"/><circle cx="7.2" cy="9" r="1.2"/></symbol><symbol id="i-menu" viewBox="0 0 24 24"><path d="m2 5 19-.9-.1 2.7L2.2 7zm2.3 5.7 17-.5-.2 2.6-17 .4zM2 16.5l19-.3-.4 2.7-18.5.1z"/></symbol></defs></svg>
@@ -45,7 +45,7 @@
       <a class="brand" href="#top" aria-label="Максимум, на главную"><img src="assets/logo.webp" alt="Максимум" width="140" height="35"></a>
       <button id="menu-toggle" class="menu-toggle" aria-controls="navigation" aria-expanded="false"><svg class="icon " viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg> Меню</button>
       <nav id="navigation" aria-label="Разделы сайта">
-        <a href="#comic">Комикс</a><a href="#choices">Ваши выборы</a><a href="#heroes">Герои</a><a href="#credits">Благодарности</a>
+        <a href="#comic">Комикс</a><a href="#choices">Ваши выборы</a><a href="#merch">Мерч</a><a href="#heroes">Герои</a><a href="#credits">Благодарности</a>
       </nav>
     </div>
   </header>
@@ -62,7 +62,13 @@
             <div class="location"><span class="rule"></span>Новый Орлеан<svg class="icon fleur" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-fleur"></use></svg>1930</div>
             <h1 id="title"><img src="assets/logo.webp" alt="Максимум" fetchpriority="high"></h1>
             <p>Убийство судьи, странный медальон и четверо генералов. Одно дело для Максончика и Тиама.</p>
-            <button class="action red-action" data-read>Читать комикс <svg class="icon " viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-book"></use></svg></button>
+            <div class="hero-actions">
+              <button class="action red-action" data-read>Читать комикс <svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg></button>
+              <button type="button" class="special-ticket" id="open-specials" aria-haspopup="dialog" aria-controls="special-intro">
+                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="6.4" fill="currentColor"/><path d="M16 1v5m0 20v5M1 16h5m20 0h5M5.4 5.4l3.7 3.7m13.8 13.8 3.7 3.7m0-21.2-3.7 3.7M9.1 22.9l-3.7 3.7" stroke="currentColor" stroke-width="2.4"/></svg>
+                <span><small>2 секретные серии</small><strong>Спецвыпуск</strong></span>
+              </button>
+            </div>
           </div>
           <div class="hero-sign"><span>Частный детектив</span><strong>Максончик</strong></div>
           <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
@@ -92,6 +98,58 @@
         <div class="choice-grid" id="choice-grid" aria-live="polite"></div>
       </div>
     </section>
+    <section id="merch" class="paper merch-section" aria-labelledby="merch-title">
+      <div class="wrap">
+        <div class="merch-heading">
+          <p class="section-kicker" data-appear="label"><span></span> Коллекция «Максимум»</p>
+          <h2 id="merch-title" data-appear="heading">Мерч</h2>
+        </div>
+        <div class="merch-grid">
+          <figure class="merch-item merch-shirts" data-appear="card">
+            <a class="merch-photo" href="assets/merch/shirts.webp" aria-label="Увеличить фото футболок">
+              <img src="assets/merch/shirts.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="Две модели в футболках с героями комикса. На чёрной — Максончик, на светлой — Тиам.">
+              <svg class="icon" aria-hidden="true"><use href="#i-zoom"></use></svg>
+            </a>
+            <figcaption><h3>Футболки</h3><p>Максончик и Тиам</p></figcaption>
+          </figure>
+          <figure class="merch-item merch-vest" data-appear="card">
+            <a class="merch-photo" href="assets/merch/vest.webp" aria-label="Увеличить фото жилета">
+              <img src="assets/merch/vest.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="Модель со спины в чёрном жилете с вышитой лилией и надписью «Сыночки Анархии».">
+              <svg class="icon" aria-hidden="true"><use href="#i-zoom"></use></svg>
+            </a>
+            <figcaption><h3>Жилет</h3><p>«Сыночки Анархии»</p></figcaption>
+          </figure>
+          <figure class="merch-item" data-appear="card">
+            <a class="merch-photo" href="assets/merch/case.webp" aria-label="Увеличить фото чехла">
+              <img src="assets/merch/case.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="Чёрный чехол для телефона с портретом Максончика в очках и плаще.">
+              <svg class="icon" aria-hidden="true"><use href="#i-zoom"></use></svg>
+            </a>
+            <figcaption><h3>Чехол для телефона</h3><p>Максончик</p></figcaption>
+          </figure>
+          <figure class="merch-item" data-appear="card">
+            <a class="merch-photo" id="mug-photo" href="assets/merch/mug-maxon.webp" aria-label="Увеличить фото кружки">
+              <img src="assets/merch/mug-maxon.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="Кремовая кружка с портретом Максончика.">
+              <svg class="icon" aria-hidden="true"><use href="#i-zoom"></use></svg>
+            </a>
+            <figcaption>
+              <h3>Кружка</h3>
+              <fieldset class="mug-prints">
+                <legend>Принт на кружке</legend>
+                <label><input type="radio" name="mug-print" value="mug-maxon" data-alt="Кремовая кружка с портретом Максончика." checked><span>Максончик</span></label>
+                <label><input type="radio" name="mug-print" value="mug-alena" data-alt="Кремовая кружка с портретом Алёны в круглых очках."><span>Алёна</span></label>
+              </fieldset>
+            </figcaption>
+          </figure>
+          <figure class="merch-item" data-appear="card">
+            <a class="merch-photo" href="assets/merch/wheel.webp" aria-label="Увеличить фото моноколеса">
+              <img src="assets/merch/wheel.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="Чёрное электрическое моноколесо с логотипом «Максимум» на мокрой брусчатке.">
+              <svg class="icon" aria-hidden="true"><use href="#i-zoom"></use></svg>
+            </a>
+            <figcaption><h3>Моноколесо</h3><p>«Максимум»</p></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
     <section id="heroes" class="cast-section" aria-labelledby="heroes-title" tabindex="-1">
       <div class="cast-pin">
         <div class="wrap cast-wrap">
@@ -102,8 +160,10 @@
               <button class="round next" id="cast-next" aria-label="Следующий герой"><svg class="icon " viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></button>
             </div>
           </div>
-          <div id="cast-stage" class="cast-stage" tabindex="0" aria-label="Герои комикса. Переключение стрелками влево и вправо"></div>
-          <div class="cast-bottom" data-appear="controls"><div class="cast-progress" aria-hidden="true"><span id="cast-progress"></span></div><a class="to-credits" href="#credits">К благодарностям <svg class="icon " viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></a></div>
+          <div data-appear="controls">
+            <div id="cast-stage" class="cast-stage" tabindex="0" aria-label="Герои комикса. Переключение стрелками влево и вправо"></div>
+            <div class="cast-bottom"><div class="cast-progress" aria-hidden="true"><span id="cast-progress"></span></div><a class="to-credits" href="#credits">К благодарностям <svg class="icon " viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></a></div>
+          </div>
         </div>
       </div>
     </section>
@@ -116,9 +176,22 @@
   </main>
   <footer><div class="wrap foot" data-appear="controls"><a href="#top" class="brand"><img src="assets/logo.webp" alt="Максимум"></a><a href="#top" class="to-top">В начало <svg class="icon upward" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></a></div></footer>
   <button id="secret-key" class="secret-key" hidden><svg class="icon " viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-key"></use></svg> Секрет</button>
+  <dialog id="merch-preview" class="merch-preview" aria-labelledby="merch-preview-title">
+    <div class="merch-preview-head"><h2 id="merch-preview-title"></h2><button type="button" class="close" data-close aria-label="Закрыть фото"><svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg></button></div>
+    <img id="merch-preview-image" alt="">
+  </dialog>
   <dialog id="index-dialog" class="panel-dialog" aria-labelledby="index-title">
     <div class="dialog-heading"><div><p class="section-kicker"><span></span> Все серии</p><h2 id="index-title">Оглавление</h2></div><button class="close" data-close aria-label="Закрыть"><svg class="icon " viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-close"></use></svg></button></div>
     <div id="episode-index" class="episode-index"></div>
+  </dialog>
+  <dialog id="special-intro" class="special-intro" aria-labelledby="beach-title">
+    <div class="special-film">
+      <div class="beach-panorama"><img id="beach-panorama" width="839" height="296" alt=""></div>
+      <div class="beach-caption">
+        <div><p>Максимум · Спецвыпуск</p><h2 id="beach-title">Пляжный эпизод</h2></div>
+        <button type="button" id="skip-special-intro" autofocus>К чтению <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></button>
+      </div>
+    </div>
   </dialog>
   <dialog id="reader" class="reader" aria-labelledby="reader-title">
     <header class="reader-head"><div class="episode-picker">

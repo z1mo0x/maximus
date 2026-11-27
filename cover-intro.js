@@ -115,7 +115,7 @@
       [".mast-inner", "0 -12px", 0], [".hero-person", "28px 4px", 0],
       [".hero-copy .location", "-8px 0", 70], [".hero-copy h1", "-16px 5px", 130],
       [".hero-copy > p", "0 8px", 200], [".hero-sign", "9px 4px", 235],
-      [".hero-copy .action", "0 6px", 270], [".imprint", "0 -4px", 300],
+      [".hero-actions", "0 6px", 270], [".imprint", "0 -4px", 300],
       [".secret-key:not([hidden])", "8px 0", 320]
     ];
     const reveals = [];

@@ -4,7 +4,7 @@ const $ = (selector, root = document) => root.querySelector(selector);
 const all = (selector, root = document) => [...root.querySelectorAll(selector)];
 const two = number => String(number).padStart(2, "0");
 const motion = matchMedia("(prefers-reduced-motion: reduce)");
-const { episodes, cast } = catalog;
+const { episodes, specials, cast } = catalog;
 
 function element(tag, className, text) {
   const node = document.createElement(tag);
@@ -13,19 +13,22 @@ function element(tag, className, text) {
   return node;
 }
 
+function revealSection(target, delay = 0) {
+  sectionObserver?.unobserve(target);
+  target.classList.remove("awaiting-reveal");
+  if (motion.matches || target.matches(":focus-within")) return;
+  if (target.dataset.appear === "card") target.style.setProperty("--appear-delay", delay + "ms");
+  target.classList.add("appearing");
+}
+
 const sectionObserver = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
   let cardInBatch = 0;
   for (const {target, isIntersecting} of entries) {
     if (!isIntersecting) continue;
-    sectionObserver.unobserve(target);
-    target.classList.remove("awaiting-reveal");
-    if (motion.matches || target.matches(":focus-within")) continue;
-    if (target.dataset.appear === "card") {
-      target.style.setProperty("--appear-delay", Math.min(cardInBatch++, 3) * 55 + "ms");
-    }
-    target.classList.add("appearing");
+    const delay = target.dataset.appear === "card" ? Math.min(cardInBatch++, 3) * 55 : 0;
+    revealSection(target, delay);
   }
-}, {rootMargin:"0px 0px -8px 0px"}) : null;
+}, {rootMargin:"0px 0px -250px 0px"}) : null;
 
 function observeSections(container) {
   if (!sectionObserver) return;
@@ -35,6 +38,18 @@ function observeSections(container) {
   }
 }
 observeSections(document);
+// The last 250 pixels of the document cannot scroll past the reveal line.
+if (sectionObserver) {
+  const pageEnd = new IntersectionObserver(([entry]) => {
+    if (entry.intersectionRatio < .9) return;
+    for (const node of all(".awaiting-reveal")) {
+      const bounds = node.getBoundingClientRect();
+      if (bounds.bottom > 0 && bounds.top < innerHeight) revealSection(node);
+    }
+    pageEnd.disconnect();
+  }, {threshold: .9});
+  pageEnd.observe($(".foot"));
+}
 document.addEventListener("animationend", event => {
   if (event.animationName === "section-arrival") event.target.classList.remove("appearing");
 });
@@ -64,6 +79,33 @@ all("dialog").forEach(dialog => {
 });
 all("[data-close]").forEach(button => button.addEventListener("click", () => button.closest("dialog").close()));
 
+const mugPhoto = $("#mug-photo");
+const mugImage = $("img", mugPhoto);
+function updateMugPrint() {
+  const print = $(".mug-prints input:checked");
+  const source = "assets/merch/" + print.value + ".webp";
+  mugPhoto.href = source;
+  mugImage.src = source;
+  mugImage.alt = print.dataset.alt;
+}
+$(".mug-prints").addEventListener("change", updateMugPrint);
+window.addEventListener("pageshow", updateMugPrint);
+
+const merchPreview = $("#merch-preview");
+$(".merch-grid").addEventListener("click", event => {
+  const photo = event.target.closest(".merch-photo");
+  if (!photo || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  const figure = photo.closest("figure");
+  const print = $("input:checked", figure);
+  const title = $("h3", figure).textContent;
+  $("#merch-preview-title").textContent = print ? title + " · " + print.labels[0].textContent.trim() : title;
+  const previewImage = $("#merch-preview-image");
+  previewImage.src = photo.href;
+  previewImage.alt = $("img", photo).alt;
+  openDialog(merchPreview);
+});
+
 const nav = $("#navigation");
 function showMenu(open) {
   nav.classList.toggle("open", open);
@@ -83,6 +125,7 @@ const sheet = $("#reader-sheet");
 const sheetImage = $("#reader-page");
 const mask = $("#reader-mask");
 const ns = "http://www.w3.org/2000/svg";
+let readerEpisodes = episodes;
 let edition = 0;
 let frame = 0;
 let full = false;
@@ -100,13 +143,18 @@ function icon(name, extra = "") {
   return drawing;
 }
 
+function populateEpisodePicker() {
+  episodeList.replaceChildren(...readerEpisodes.map((episode, index) => {
+    const option = element("div", "episode-option");
+    option.id = "episode-option-" + episode.id;
+    option.setAttribute("role", "option");
+    option.append(element("span", "episode-no", two(episode.id)), element("span", "", episode.title), icon("check"));
+    option.addEventListener("click", () => chooseEpisode(index));
+    return option;
+  }));
+}
+
 episodes.forEach((episode, index) => {
-  const option = element("div", "episode-option");
-  option.id = "episode-option-" + episode.id;
-  option.setAttribute("role", "option");
-  option.append(element("span", "episode-no", two(episode.id)), element("span", "", episode.title), icon("check"));
-  option.addEventListener("click", () => chooseEpisode(index));
-  episodeList.append(option);
   const button = element("button");
   button.append(element("small", "", two(episode.id)), element("span", "", episode.title));
   button.addEventListener("click", () => { $("#index-dialog").close(); openReader(index); });
@@ -119,7 +167,7 @@ let searchPrefix = "";
 let lastTyped = 0;
 
 function highlightEpisode(index) {
-  activeEpisode = Math.max(0, Math.min(episodes.length - 1, index));
+  activeEpisode = Math.max(0, Math.min(readerEpisodes.length - 1, index));
   episodeList.querySelector(".highlighted")?.classList.remove("highlighted");
   const option = episodeList.children[activeEpisode];
   option.classList.add("highlighted");
@@ -171,7 +219,7 @@ episodeSelect.addEventListener("keydown", event => {
     }
     if (episodeList.hidden) openEpisodeList();
     if (key === "Home") highlightEpisode(0);
-    else if (key === "End") highlightEpisode(episodes.length - 1);
+    else if (key === "End") highlightEpisode(readerEpisodes.length - 1);
     else highlightEpisode(activeEpisode + (key === "ArrowDown" ? 1 : -1));
   } else if (key.length === 1 && /[а-яёa-z0-9]/i.test(key)) {
     event.preventDefault();
@@ -179,7 +227,7 @@ episodeSelect.addEventListener("keydown", event => {
     const now = performance.now();
     searchPrefix = (now - lastTyped < 700 ? searchPrefix : "") + key.toLowerCase();
     lastTyped = now;
-    const index = episodes.findIndex(ep => String(ep.id) === searchPrefix || two(ep.id) === searchPrefix || ep.title.toLowerCase().startsWith(searchPrefix));
+    const index = readerEpisodes.findIndex(ep => String(ep.id) === searchPrefix || two(ep.id) === searchPrefix || ep.title.toLowerCase().startsWith(searchPrefix));
     if (index >= 0) highlightEpisode(index);
   }
 });
@@ -212,7 +260,7 @@ function buildSheet(episode) {
   sheet.style.setProperty("--natural-width", episode.w + "px");
   sheetImage.width = episode.w;
   sheetImage.height = episode.h;
-  sheetImage.alt = "Серия " + episode.id + " «" + episode.title + "»";
+  sheetImage.alt = editionLabel(episode) + " «" + episode.title + "»";
   sheetImage.src = episode.src;
 }
 
@@ -227,13 +275,17 @@ function setZoom(value) {
   if (!zoomed) readerScroll.scrollTo(0, 0);
 }
 
+function editionLabel(episode) {
+  return (readerEpisodes === specials ? "Спецвыпуск " : "Серия ") + two(episode.id);
+}
+
 function updateReaderControls() {
-  const episode = episodes[edition];
+  const episode = readerEpisodes[edition];
   const lastFrame = full || frame === episode.frames.length - 1;
-  $("#frame-status").textContent = full ? "Серия " + two(episode.id) + " / " + episodes.length : "Кадр " + (frame + 1) + " / " + episode.frames.length;
+  $("#frame-status").textContent = full ? editionLabel(episode) + " / " + readerEpisodes.length : "Кадр " + (frame + 1) + " / " + episode.frames.length;
   $("#frame-prev").disabled = full ? edition === 0 : frame === 0;
   $("#frame-prev").setAttribute("aria-label", full ? "Предыдущая серия" : "Предыдущий кадр");
-  const nextLabel = lastFrame ? (edition === episodes.length - 1 ? "Завершить чтение" : "Следующая серия") : "Следующий кадр";
+  const nextLabel = lastFrame ? (edition === readerEpisodes.length - 1 ? "Завершить чтение" : "Следующая серия") : "Следующий кадр";
   $("#frame-next").textContent = nextLabel;
   $("#full-toggle").textContent = full ? "По кадрам" : "Страница целиком";
   $("#full-toggle").setAttribute("aria-pressed", String(full));
@@ -244,27 +296,34 @@ function updateReaderControls() {
 function setEdition(index) {
   edition = index;
   frame = 0;
-  const episode = episodes[index];
+  const episode = readerEpisodes[index];
   $("#episode-current").textContent = two(episode.id) + " · " + episode.title;
   for (const [i, option] of Array.from(episodeList.children).entries()) {
     option.setAttribute("aria-selected", String(i === index));
   }
-  $("#reader-number").textContent = "Серия " + two(episode.id);
+  $("#reader-number").textContent = editionLabel(episode);
   $("#reader-title").textContent = episode.title;
   buildSheet(episode);
   setZoom(false);
   updateReaderControls();
 }
-function openReader(index = 0) {
+function openReader(index = 0, collection = episodes) {
+  readerEpisodes = collection;
   full = false;
+  closeEpisodeList();
+  $("#episode-label").textContent = readerEpisodes === specials ? "Выбрать спецвыпуск" : "Выбрать серию";
+  populateEpisodePicker();
   openDialog(reader);
   setEdition(index);
   $("#frame-next").focus({preventScroll:true});
 }
 function advance() {
-  if (full || frame === episodes[edition].frames.length - 1) {
-    if (edition < episodes.length - 1) setEdition(edition + 1);
-    else { reader.close(); $("#credits").scrollIntoView({behavior: "instant"}); }
+  if (full || frame === readerEpisodes[edition].frames.length - 1) {
+    if (edition < readerEpisodes.length - 1) setEdition(edition + 1);
+    else {
+      reader.close();
+      if (readerEpisodes === episodes) $("#credits").scrollIntoView({behavior: "instant"});
+    }
     return;
   }
   frame++;
@@ -282,6 +341,22 @@ function previousFrame() {
   updateReaderControls();
 }
 all("[data-read]").forEach(button => button.addEventListener("click", () => openReader()));
+const specialIntro = $("#special-intro");
+let specialIntroTimer;
+function startSpecialReader() {
+  if (!specialIntro.open) return;
+  clearTimeout(specialIntroTimer);
+  specialIntro.close();
+  openReader(0, specials);
+}
+$("#open-specials").addEventListener("click", () => {
+  $("#beach-panorama").src = "assets/specials/panorama.webp";
+  openDialog(specialIntro);
+  clearTimeout(specialIntroTimer);
+  specialIntroTimer = setTimeout(startSpecialReader, motion.matches ? 850 : 2200);
+});
+$("#skip-special-intro").addEventListener("click", startSpecialReader);
+specialIntro.addEventListener("cancel", () => clearTimeout(specialIntroTimer));
 $("#full-toggle").addEventListener("click", () => { full = !full; updateReaderControls(); });
 $("#reader-zoom").addEventListener("click", () => { setZoom(!zoomed); updateReaderControls(); });
 sheet.addEventListener("click", () => { if (full) { setZoom(!zoomed); updateReaderControls(); } else advance(); });
